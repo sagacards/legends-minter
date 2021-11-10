@@ -157,3 +157,51 @@ With that in place, we can deploy our TxAuth canister to Mainnet.
 ```
 
 And now we can use `notify_dfx` to send the transaction from the Ledger to our new TxAuth canister!
+
+## Putting It All Together
+
+Unfortunately, there appears to be a limitation on only the recipient of a transaction being able to be notified of that transaction. I must be missing something 🤔.
+
+Still, if I send ICP to my canister principal, I can notify it and read out the authenticated transaction:
+
+```
+❯ dfx canister --network ic --no-wallet call ryjl3-tyaaa-aaaaa-aaaba-cai send_dfx \
+'(
+    record {
+        memo = 1 : nat64;
+        amount = record {e8s = 1 : nat64};
+        fee = record {e8s = 10_000 : nat64};
+        to =  "fecf37d8f227ad6bd02f259794c3414080fd6f4ac2a9ef49ccb3dea1bd3ad01a"
+    }
+)'
+(1_263_850 : nat64)
+```
+
+```
+❯ dfx canister --network ic --no-wallet call ryjl3-tyaaa-aaaaa-aaaba-cai notify_dfx \
+'(
+    record {
+        block_height = 1_263_850 : nat64;
+        max_fee = record {e8s = 10_000 : nat64};
+        to_canister = principal "lykvf-5qaaa-aaaaj-qaimq-cai";
+    }
+)'
+()
+```
+
+```
+❯ dfx canister --network ic call minter readTransactions
+(
+  vec {
+    record {
+      to = principal "lykvf-5qaaa-aaaaj-qaimq-cai";
+      to_subaccount = null;
+      from = principal "k2syn-nenrg-67lse-cn2pm-srhsr-c3rsj-tfatg-63ga5-pz25g-x56ob-2ae";
+      memo = 1 : nat64;
+      from_subaccount = null;
+      amount = record { e8s = 1 : nat64 };
+      block_height = 1_263_850 : nat64;
+    };
+  },
+)
+````
