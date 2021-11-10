@@ -160,7 +160,7 @@ And now we can use `notify_dfx` to send the transaction from the Ledger to our n
 
 ## Putting It All Together
 
-Unfortunately, there appears to be a limitation on only the recipient of a transaction being able to be notified of that transaction. I must be missing something 🤔.
+Unfortunately, there appears to be a limitation on only the recipient of a transaction being able to be notified of that transaction: https://github.com/dfinity/ic/blob/c58c75a687621530b2635b22630e9562424fa3b3/rs/rosetta-api/ledger_canister/src/main.rs#L246. I must be missing something 🤔.
 
 Still, if I send ICP to my canister principal, I can notify it and read out the authenticated transaction:
 
