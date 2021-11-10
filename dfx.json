@@ -1,0 +1,35 @@
+{
+  "canisters": {
+    "legendsminter": {
+      "main": "src/legendsminter/main.mo",
+      "type": "motoko"
+    },
+    "legendsminter_assets": {
+      "dependencies": [
+        "legendsminter"
+      ],
+      "frontend": {
+        "entrypoint": "src/legendsminter_assets/src/index.html"
+      },
+      "source": [
+        "src/legendsminter_assets/assets",
+        "dist/legendsminter_assets/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "dfx": "0.8.1",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  },
+  "version": 1
+}
