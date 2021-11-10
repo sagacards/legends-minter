@@ -1,21 +1,8 @@
 {
   "canisters": {
-    "legendsminter": {
-      "main": "src/legendsminter/main.mo",
+    "minter": {
+      "main": "src/main.mo",
       "type": "motoko"
-    },
-    "legendsminter_assets": {
-      "dependencies": [
-        "legendsminter"
-      ],
-      "frontend": {
-        "entrypoint": "src/legendsminter_assets/src/index.html"
-      },
-      "source": [
-        "src/legendsminter_assets/assets",
-        "dist/legendsminter_assets/"
-      ],
-      "type": "assets"
     }
   },
   "defaults": {
