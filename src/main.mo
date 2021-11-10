@@ -18,12 +18,14 @@ actor {
         e8s : Nat64;
     };
 
-    type NotifyCanisterArgs = {
-        block_height: BlockHeight;
-        max_fee: ICPTs;
+    type TransactionNotification = {
+        from: Principal;
         from_subaccount: ?SubAccount;
-        to_canister: Principal;
+        to: CanisterId;
         to_subaccount: ?SubAccount;
+        block_height: BlockHeight;
+        amount: ICPTs;
+        memo: Memo;
     };
 
     ////////////
@@ -31,8 +33,8 @@ actor {
     //////////
 
 
-    var stableTransactions : [NotifyCanisterArgs] = [];
-    let transactions = Buffer.Buffer<NotifyCanisterArgs>(stableTransactions.size());
+    var stableTransactions : [TransactionNotification] = [];
+    let transactions = Buffer.Buffer<TransactionNotification>(stableTransactions.size());
 
     // Provision transactions from stable memory
     for (v in stableTransactions.vals()) {
@@ -50,7 +52,7 @@ actor {
     ////////
 
 
-    public shared ({ caller }) func transaction_notification (args : NotifyCanisterArgs) : async () {
+    public shared ({ caller }) func transaction_notification (args : TransactionNotification) : async () {
 
         // We need to make sure that only the Ledger can call this endpoint
         let ledger = Principal.fromText("ryjl3-tyaaa-aaaaa-aaaba-cai");
@@ -61,7 +63,7 @@ actor {
     };
 
 
-    public query func readTransactions () : async ([NotifyCanisterArgs]) {
+    public query func readTransactions () : async ([TransactionNotification]) {
         transactions.toArray();
     }
 
